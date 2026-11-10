@@ -30,6 +30,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# CMS content database. Mount a persistent volume at /data, otherwise edits are
+# lost whenever the container is replaced.
+RUN mkdir -p /data && chown nextjs:nodejs /data
+ENV CMS_DB_PATH=/data/cms.db
+VOLUME ["/data"]
+
 USER nextjs
 EXPOSE 3000
 CMD ["node", "server.js"]

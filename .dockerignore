@@ -1,0 +1,9 @@
+# Keep the build context clean and — importantly — keep host-built native
+# modules (macOS binaries) and local secrets out of the image build.
+node_modules
+.next
+.git
+.data
+.env*
+!.env.example
+*.log
